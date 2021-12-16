@@ -47,7 +47,7 @@ class InsertGenerator:
         return cod
 
     def __generator_ranking(self):
-        ranking = random.random() * 10
+        ranking = round(random.random() * 10, 2)
         return ranking
 
     def __generator_Login(self):
