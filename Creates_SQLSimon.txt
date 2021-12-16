@@ -1,0 +1,123 @@
+CREATE TABLE Aluno (
+    codMatricula VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    CPF VARCHAR(11) UNIQUE,
+    Nome VARCHAR(50),
+    Curso VARCHAR(50) NOT NULL,
+    Ranking FLOAT,
+    Login VARCHAR(20) NOT NULL UNIQUE,
+    Senha VARCHAR(20) NOT NULL
+);
+
+
+CREATE TABLE Disciplina (
+    codDisciplina VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    nomeDisciplina VARCHAR(50) NOT NULL UNIQUE,
+    cargaHoraria INT NOT NULL
+);
+
+CREATE TABLE AlunoDisciplina (
+    codAluno VARCHAR(30),
+    codDisciplina VARCHAR(30),
+    PRIMARY KEY (codAluno, codDisciplina),
+    FOREIGN KEY (codAluno) REFERENCES Aluno(codMatricula),
+    FOREIGN KEY (codDisciplina) REFERENCES Disciplina(codDisciplina)
+);
+
+CREATE TABLE Turma (
+    codTurma VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    codDisciplina VARCHAR(30) NOT NULL,
+    Vagas  TINYINT UNSIGNED NOT NULL,
+    Ano  SMALLINT UNSIGNED NOT NULL,
+    Periodo TINYINT UNSIGNED NOT NULL,
+    siglaTurma VARCHAR(2) NOT NULL,
+    FOREIGN KEY (codDisciplina) REFERENCES Disciplina(codDisciplina)
+);
+
+CREATE TABLE Monitor (
+    codMonitor VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    codTurma VARCHAR(30) NOT NULL,
+    codMatricula VARCHAR(30) NOT NULL,
+    FOREIGN KEY (codTurma) REFERENCES Turma(codTurma),
+    FOREIGN KEY (codMatricula) REFERENCES Aluno(codMatricula)
+);
+
+
+CREATE TABLE Sala (
+    codSala VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    Capacidade TINYINT UNSIGNED,
+    Tipo VARCHAR(10) NOT NULL,
+    Disponibilidade BOOLEAN NOT NULL
+);
+
+
+CREATE TABLE Professor (
+    codProfessor VARCHAR(30) PRIMARY KEY NOT NULL UNIQUE,
+    CPF VARCHAR(11) UNIQUE,
+    Nome VARCHAR(20),
+    Login VARCHAR(20) NOT NULL UNIQUE,
+    Senha VARCHAR(20) NOT NULL
+);
+
+
+CREATE TABLE TurmaProfessor (
+    codProfessor VARCHAR(30),
+    codTurma VARCHAR(30),
+    PRIMARY KEY (codProfessor, codTurma),
+    FOREIGN KEY (codProfessor) REFERENCES Professor(codProfessor),
+    FOREIGN KEY (codTurma) REFERENCES Turma(codTurma)
+);
+
+
+CREATE TABLE Certificado (
+	codCertificado VARCHAR(30),
+    codDisciplina VARCHAR(30) NOT NULL UNIQUE,
+    FOREIGN KEY (codDisciplina) REFERENCES Disciplina(codDisciplina),
+    caminhoImagem VARCHAR(30),
+    PRIMARY KEY (codCertificado)
+);
+
+
+CREATE TABLE CertificadoMonitor (
+	codMonitor VARCHAR(30)  NOT NULL UNIQUE,
+	codCertificado VARCHAR(30),
+	PRIMARY KEY (codCertificado, codMonitor),
+	FOREIGN KEY (codCertificado) REFERENCES Certificado(codCertificado),
+    FOREIGN KEY (codMonitor) REFERENCES Monitor(codMonitor)
+);
+
+
+CREATE TABLE Reserva (
+	codReserva VARCHAR(30),
+	codSala VARCHAR(30)  NOT NULL,
+    codMonitor VARCHAR(30) NOT NULL,
+    FOREIGN KEY (codMonitor) REFERENCES Monitor(codMonitor),
+    FOREIGN KEY (codSala) REFERENCES Sala (codSala),
+    PRIMARY KEY (codReserva)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
